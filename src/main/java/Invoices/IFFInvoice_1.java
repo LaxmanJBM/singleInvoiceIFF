@@ -5,7 +5,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import Base.Browser;
 
-//This Script is for Single Invoice Jon Screen 
+//This Script is for Single Invoice Job Screen 
 public class IFFInvoice_1 extends Browser{		
 		@FindBy(xpath = "//input[@title='Username']")
 		private WebElement username;

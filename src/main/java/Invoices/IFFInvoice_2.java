@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -81,7 +83,7 @@ public class IFFInvoice_2 extends Browser{
 	@FindBy(xpath="//input[@name='ctl00$ContentPlaceHolder1$btnAdd1']")private WebElement addBtnT;
 	@FindBy(xpath="//input[@name='ctl00$ContentPlaceHolder1$Button9']")private WebElement closeBtn;
 	@FindBy(xpath="//input[@id='ctl00_ContentPlaceHolder1_Chkbank']")private WebElement checkBox1;
-	@FindBy(xpath="ctl00$ContentPlaceHolder1$ddlBank")private WebElement bank;
+	@FindBy(xpath="//select[@name='ctl00$ContentPlaceHolder1$ddlBank']")private WebElement bank;
 	@FindBy(xpath="//input[@id='ctl00_ContentPlaceHolder1_ChkInclu']")private WebElement checkBox2;
 	@FindBy(xpath="//select[@name='ctl00$ContentPlaceHolder1$ddlincTariff']")private WebElement inclusiveCharges;
 	@FindBy(xpath="//select[@name='ctl00$ContentPlaceHolder1$ddlCur']")private WebElement currencyTax;
@@ -93,9 +95,9 @@ public class IFFInvoice_2 extends Browser{
 	@FindBy(xpath="//input[@name='ctl00$ContentPlaceHolder1$imgclosediv']")private WebElement popClose;
 	@FindBy(xpath="//img[@id='ctl00_btnCancel']")private WebElement undo;
 	@FindBy(xpath="//img[@id='ctl00_btnNew']")private WebElement newBtnS;
+	@FindBy(xpath="//div[@class='fmBox err']")private WebElement errorMsg;
+	@FindBy(xpath="//a[text()='Close']")private WebElement errorCloseBtn;
 /*	@FindBy(xpath="")private WebElement;
-	@FindBy(xpath="")private WebElement;
-	@FindBy(xpath="")private WebElement;
 	@FindBy(xpath="")private WebElement;	
 	@FindBy(xpath="")private WebElement;
 	@FindBy(xpath="")private WebElement;
@@ -141,7 +143,7 @@ public class IFFInvoice_2 extends Browser{
 			{
 				XSSFRow celldata = sheet.getRow(i);	
 				try {
-				System.out.println("VALUE OF ID ="+ celldata.getCell(1).getNumericCellValue());
+		//		System.out.println("VALUE OF ID ="+ celldata.getCell(1).getNumericCellValue());
 				int idNo = (int) celldata.getCell(1).getNumericCellValue();
 				
 				if(idNo == excel) {
@@ -242,6 +244,10 @@ public class IFFInvoice_2 extends Browser{
 					String duDate = celldata.getCell(18).getStringCellValue();
 					
 					invDate.clear();
+					Thread.sleep(1000);
+					try {
+					driver.findElement(By.xpath("//*[@id=\"fmBox\"]/a")).click();}
+					catch(Exception e) {Thread.sleep(800);}
 					JavascriptExecutor js2=(JavascriptExecutor)driver;
 					js2.executeScript("arguments[0].value='"+ inDate +"'" , invDate);
 					Thread.sleep(1500);
@@ -249,6 +255,16 @@ public class IFFInvoice_2 extends Browser{
 					JavascriptExecutor js3=(JavascriptExecutor)driver;
 					js3.executeScript("arguments[0].value='"+ duDate +"'" , dueDate);}
 				catch(Exception p) {Thread.sleep(1000);}
+				
+//DELIVERY AGENT
+				
+				try {
+					String agent = celldata.getCell(19).getStringCellValue();
+					Thread.sleep(800);
+					if(deliveryAgaint.isEnabled()) {
+					Select se=new Select(deliveryAgaint);
+					se.selectByVisibleText(agent);}}
+				catch(Exception c) {Thread.sleep(1000);}
 					
 					
 //TAX TYPE
@@ -288,7 +304,7 @@ public class IFFInvoice_2 extends Browser{
 		{
 			XSSFRow celldata = sheet.getRow(i);	
 			try {
-			System.out.println("VALUE OF ID ="+ celldata.getCell(1).getNumericCellValue());
+		//	System.out.println("VALUE OF ID ="+ celldata.getCell(1).getNumericCellValue());
 			int idNo = (int) celldata.getCell(1).getNumericCellValue();
 			
 			if(idNo == excel) {
@@ -302,19 +318,27 @@ public class IFFInvoice_2 extends Browser{
 				try {
 				driver.switchTo().alert().accept();}
 				catch(Exception e) {Thread.sleep(1000);}
-				Thread.sleep(800);
 			
 				
 //ADD BTN
-			try {
-				Thread.sleep(1000);
+				Thread.sleep(1500);
+			
+	/*		//	JOptionPane.showMessageDialog(null, "Before Click On New Btn"+ excel);
+				try {
+					JavascriptExecutor executor = (JavascriptExecutor)driver;
+					executor.executeScript("arguments[0].click();", addBtn1);}
+			//	addBtn1.click();}
+				catch(Exception e) {System.out.println("Exception of New Button ="+e);}
+			//	Thread.sleep(1500);
+			//	JOptionPane.showMessageDialog(null, "After Click On New Btn"+ excel);
+				
 				JavascriptExecutor executor = (JavascriptExecutor)driver;
-				executor.executeScript("arguments[0].click();", addBtn1);}
-			catch(Exception e) {Thread.sleep(1000);}
+				executor.executeScript("arguments[0].click();", addBtn1);
+		
 			
 //SL NO
+			  Thread.sleep(1500);
 			try {
-			    Thread.sleep(1500);
 				int no = (int) celldata.getCell(3).getNumericCellValue();
 				JavascriptExecutor js2=(JavascriptExecutor)driver;
 				js2.executeScript("arguments[0].value='"+ no +"'" , slNo);}
@@ -322,8 +346,8 @@ public class IFFInvoice_2 extends Browser{
 			
 				
 //JOB NAME
+			Thread.sleep(1000);
 			try {
-				Thread.sleep(1000);
 				jobNameD.click();
 				String tName = celldata.getCell(4).getStringCellValue();
 				JavascriptExecutor js1=(JavascriptExecutor)driver;
@@ -393,13 +417,11 @@ public class IFFInvoice_2 extends Browser{
 				tariffRemarks.sendKeys(rem);}
 				catch(Exception d) {Thread.sleep(1000);}
 //ADD			
-				Thread.sleep(2000);
+				Thread.sleep(1500);
 				try {
 				addBtnT.click();}
-				catch(Exception e) {Thread.sleep(1500);}
-			
-
-				
+				catch(Exception e) {Thread.sleep(1500);}*/
+		
 			}}
 			catch(NullPointerException a) {
 				Thread.sleep(500);
@@ -421,9 +443,8 @@ public class IFFInvoice_2 extends Browser{
 		{
 			XSSFRow celldata = sheet.getRow(i);	
 			try {
-			System.out.println("VALUE OF ID ="+ celldata.getCell(1).getNumericCellValue());
+		//	System.out.println("VALUE OF ID ="+ celldata.getCell(1).getNumericCellValue());
 			int idNo = (int) celldata.getCell(1).getNumericCellValue();
-			
 			if(idNo == excel) {
 				
 //SCROLLING
@@ -486,52 +507,22 @@ public class IFFInvoice_2 extends Browser{
 		}}
 	
 	
-	public void saveBtn() throws Exception {
+	public void saveBtn(int excel) throws Exception {
 		
 //Scroll on top side		
 		JavascriptExecutor jse = (JavascriptExecutor)driver;
 		jse.executeScript("window.scrollBy(0,-450)");
 //SAVE BUTTON
-	/*	try {
-			Thread.sleep(2000);
-			saveBtn.click();
-			driver.switchTo().alert().accept();
-			Thread.sleep(1000);
-			driver.switchTo().alert().accept();
-			Thread.sleep(1000);
-			
-			
-			System.out.println("Successful massage ="+succMsg.getText());//	*   Invoice Saved Successfully CHN/INV/00005/23-24      
-			if(succMsg.getText().contains("	*   Invoice Saved Successfully ")) {
-			Thread.sleep(1000);
-			closeBtnSucc.click();
-			
-			Thread.sleep(1000);
-			popClose.click();
-			
-			Thread.sleep(1000);
-			undo.click();
-			
-			Thread.sleep(1000);
-			newBtnS.click();
-			
-			}
-		     
-			
-		}
-		catch(Exception e) {Thread.sleep(1000);}	*/
-		
+	
 		Thread.sleep(1500);
 	try {
 			saveBtn.click();
 			Thread.sleep(2000);
 			driver.switchTo().alert().accept();
-			Thread.sleep(2000);
+			Thread.sleep(3500);
 			driver.switchTo().alert().accept();
-			
-//This is for Successful Booking Code...
-	//		System.out.println("Succ massage ="+succMsg.getText());
-
+	
+//This is for Successful Booking Code...              
 			 if(succMsg.getText().contains("* Invoice Saved Successfully")) {        // * Invoice Saved Successfully CHN/INV/00007/23-24
 						//	JOptionPane.showMessageDialog(null, "Booking Saved Successfully"+ exec);
 				
@@ -539,8 +530,7 @@ public class IFFInvoice_2 extends Browser{
 				   closeBtnSucc.click();
 				 
 				   Thread.sleep(2000);	
-				   popClose.click();
-			      	
+				   popClose.click();	
 			      	
 			       Thread.sleep(2000);
 			       undo.click();
@@ -570,7 +560,15 @@ public class IFFInvoice_2 extends Browser{
 			 
 		   Thread.sleep(2000);
 		   newBtnS.click();
-		}	
+		}
+		else if(errorMsg.getText().contains("* Details Part should contain atleast one record.")) {    //* Details Part should contain atleast one record.
+			errorCloseBtn.click();
+			Thread.sleep(2000);
+			   undo.click();
+				 
+			   Thread.sleep(2000);
+			   newBtnS.click();
+		}
 	}
 	}
 }

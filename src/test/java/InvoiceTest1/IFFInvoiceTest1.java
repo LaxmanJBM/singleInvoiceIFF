@@ -3,6 +3,7 @@ import java.io.FileInputStream;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.Platform;
@@ -45,7 +46,6 @@ public class IFFInvoiceTest1 extends Browser{
 		
 		jb1.verifyLoginApp();
 		Thread.sleep(1000);
-
 		jb1.verifyIFFBtn();
 		Thread.sleep(1000);
 		jb1.verifyFinanceBtn();
@@ -53,7 +53,6 @@ public class IFFInvoiceTest1 extends Browser{
 		jb1.verifySingleJobgBtn();
 		Thread.sleep(1000);
 		jb2.verifyNewBtn();
-	//	jb2.verifyestimatedRadioBtn();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		
 		
@@ -77,12 +76,13 @@ public class IFFInvoiceTest1 extends Browser{
 		System.out.println("ROW COUNT IN FINAL TEST ="+row);
 		
 		for(int exec=1;exec<=row;exec++) {
+		
 			Thread.sleep(2000);
 		
 		jb2.basicDetails(exec);
 		jb2.tariffChargs(exec);	
 		jb2.otherDetails(exec);	
-		jb2.saveBtn();
+		jb2.saveBtn(exec);
 	}
 	
 	}
