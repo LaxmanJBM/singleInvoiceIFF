@@ -17,7 +17,7 @@ public static WebDriver driver;
 	public static String readExcelFile(int row,int col) throws Exception
 	{
 		FileInputStream file=new FileInputStream("C:\\Users\\Admin\\eclipse-workspace\\IFFInvoice_Project\\Invoice _TestData\\IFF_INVOICE_TEST_DATA.xlsx");
-		Sheet excelSheet = WorkbookFactory.create(file).getSheet("IFF");
+		Sheet excelSheet = WorkbookFactory.create(file).getSheet("basicDetails");
 		String value = excelSheet.getRow(row).getCell(col).getStringCellValue();
 	 	return value;
 	}
@@ -29,10 +29,9 @@ public static WebDriver driver;
 		Date d=new Date();
 		String date = d.toString().replace(" ", "-").replace(":", "-");
 		File source = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-		File destination=new File("C:\\Users\\Admin\\eclipse-workspace\\IFF_Project\\Failed_Screenshot\\ "+ nameOfMethod +","+date+".png");
+		File destination=new File("C:\\Users\\Admin\\eclipse-workspace\\IFFInvoice_Project\\FailedScreenshot\\ "+ nameOfMethod +","+date+".png");
 		FileHandler.copy(source, destination);
 	}
-	
 	
 	
 	public static String readExcelFileFinal(int row,int col) throws Exception

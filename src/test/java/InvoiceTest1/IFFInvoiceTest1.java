@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -18,24 +19,12 @@ import org.testng.annotations.Test;
 import Base.Browser;
 import Invoices.IFFInvoice_1;
 import Invoices.IFFInvoice_2;
+import Utility.CommonFile;
 
 public class IFFInvoiceTest1 extends Browser{
 	
 	IFFInvoice_1 jb1;
 	IFFInvoice_2 jb2;
-	
-/*	@BeforeClass
-	public void setupDocker() {
-		
-	System.out.println("Running Test in Docker Container");	
-	DesiredCapabilities cap=DesiredCapabilities.chrome();
-	cap.setPlatform(Platform.LINUX);
-	cap.setVersion("");
-	driver=new RemoteWebDriver(new URL(),cap);
-	driver.manage().window().maximize();
-	driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
-		
-	}*/
 
 	@BeforeMethod
 	public void setup() throws Exception {
@@ -64,8 +53,6 @@ public class IFFInvoiceTest1 extends Browser{
 	@Test(enabled =true)
 	public void data() throws Exception {
 		 FileInputStream file1=new FileInputStream("C:\\Users\\Admin\\eclipse-workspace\\IFFInvoice_Project\\Invoice _TestData\\IFF_INVOICE_TEST_DATA.xlsx");	
-			
-			
 			XSSFWorkbook workbook=new XSSFWorkbook(file1);
 			XSSFSheet sheet = workbook.getSheet("basicDetails");
 			int rowcount = sheet.getLastRowNum();
@@ -73,24 +60,20 @@ public class IFFInvoiceTest1 extends Browser{
 			int colcount = sheet.getRow(7).getLastCellNum();
 			System.out.println("rowcount in test:"+row+" colcount in test:"+colcount);
 	
-		System.out.println("ROW COUNT IN FINAL TEST ="+row);
-		
+	//	System.out.println("ROW COUNT IN FINAL TEST ="+row);	
 		for(int exec=1;exec<=row;exec++) {
-		
 			Thread.sleep(2000);
-		
 		jb2.basicDetails(exec);
 		jb2.tariffChargs(exec);	
 		jb2.otherDetails(exec);	
 		jb2.saveBtn(exec);
+		System.out.println("*** SINGLE JOB INVOICE DONE :"+exec+" ***");
 	}
 	
 	}
 	
 	@Test(enabled =false)
 	public void docker() throws Exception {
-		
-		
 		DesiredCapabilities cap=new DesiredCapabilities();
 		cap.setBrowserName(BrowserType.CHROME);
 		WebDriver driver1=new RemoteWebDriver(new URL(""), cap);
@@ -100,10 +83,14 @@ public class IFFInvoiceTest1 extends Browser{
 
 	@AfterMethod
 	
-	public void exit()
+	public void exit(ITestResult b) throws Throwable
 	{
-	//	driver.quit();
-	}
+		if(ITestResult.FAILURE == b.getStatus())
+		{	
+			CommonFile.captureScreenshotFaildTC(driver,b.getName());
+		}
+		Thread.sleep(2500);
+		driver.quit();
 	
-
+	}
 }
