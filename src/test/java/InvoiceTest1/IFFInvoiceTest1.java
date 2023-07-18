@@ -42,17 +42,14 @@ public class IFFInvoiceTest1 extends Browser{
 		jb1.verifySingleJobgBtn();
 		Thread.sleep(1000);
 		jb2.verifyNewBtn();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		
-		
-		
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);	
 	}
 
 
 	
 	@Test(enabled =true)
 	public void data() throws Exception {
-		 FileInputStream file1=new FileInputStream("C:\\Users\\Admin\\eclipse-workspace\\IFFInvoice_Project\\Invoice _TestData\\IFF_INVOICE_TEST_DATA.xlsx");	
+		 FileInputStream file1=new FileInputStream("Invoice _TestData\\IFF_INVOICE_TEST_DATA.xlsx");	
 			XSSFWorkbook workbook=new XSSFWorkbook(file1);
 			XSSFSheet sheet = workbook.getSheet("basicDetails");
 			int rowcount = sheet.getLastRowNum();
@@ -66,7 +63,7 @@ public class IFFInvoiceTest1 extends Browser{
 		jb2.basicDetails(exec);
 		jb2.tariffChargs(exec);	
 		jb2.otherDetails(exec);	
-		jb2.saveBtn(exec);
+	//	jb2.saveBtn(exec);
 		System.out.println("*** SINGLE JOB INVOICE DONE :"+exec+" ***");
 	}
 	

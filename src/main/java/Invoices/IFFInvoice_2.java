@@ -130,7 +130,7 @@ public class IFFInvoice_2 extends Browser{
 	
 	public void basicDetails(int excel) throws Exception {
 		
-		 FileInputStream file1=new FileInputStream("C:\\Users\\Admin\\eclipse-workspace\\IFFInvoice_Project\\Invoice _TestData\\IFF_INVOICE_TEST_DATA.xlsx");	
+		 FileInputStream file1=new FileInputStream("Invoice _TestData\\IFF_INVOICE_TEST_DATA.xlsx");	
 			
 			
 			XSSFWorkbook workbook=new XSSFWorkbook(file1);
@@ -291,7 +291,7 @@ public class IFFInvoice_2 extends Browser{
 	
 	
 	public void tariffChargs(int excel) throws Exception{
-		FileInputStream file1=new FileInputStream("C:\\Users\\Admin\\eclipse-workspace\\IFFInvoice_Project\\Invoice _TestData\\IFF_INVOICE_TEST_DATA.xlsx");	
+		FileInputStream file1=new FileInputStream("Invoice _TestData\\IFF_INVOICE_TEST_DATA.xlsx");	
 		
 		
 		XSSFWorkbook workbook=new XSSFWorkbook(file1);
@@ -430,7 +430,7 @@ public class IFFInvoice_2 extends Browser{
 		}}
 	
 	public void otherDetails(int excel) throws Exception{
-		FileInputStream file1=new FileInputStream("C:\\Users\\Admin\\eclipse-workspace\\IFFInvoice_Project\\Invoice _TestData\\IFF_INVOICE_TEST_DATA.xlsx");	
+		FileInputStream file1=new FileInputStream("Invoice _TestData\\IFF_INVOICE_TEST_DATA.xlsx");	
 		
 		
 		XSSFWorkbook workbook=new XSSFWorkbook(file1);

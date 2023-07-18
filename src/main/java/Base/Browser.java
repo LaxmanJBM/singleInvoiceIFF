@@ -32,14 +32,13 @@ public class Browser extends CommonFile{
 			
 //Using Headless Browser
 			System.setProperty("webdriver.chrome.driver",
-		            "C:\\Users\\Admin\\eclipse-workspace\\IFFInvoice_Project\\chromedriver.exe");
+		            "IFFInvoice_Project\\chromedriver.exe");
 			WebDriverManager.chromedriver().setup();
 		    ChromeOptions options = new ChromeOptions();
 		    options.addArguments("--remote-allow-origins=*","ignore-certificate-errors"); 
 		    options.addArguments("headless");
-		    options.addArguments("window-size=1200x600");                                              //Its Run properly
+		    options.addArguments("window-size=1200x600");                                              
 		    driver = new ChromeDriver(options);
-		 //   driver.get("https://contentstack.built.io");
 		    driver.get(readExcelFileFinal(3, 2));   
 		}
 }
